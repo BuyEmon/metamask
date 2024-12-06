@@ -42,7 +42,6 @@ async function connectMetaMask() {
       accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
       // Enable buttons after successful connection
-      document.getElementById('approveButton').disabled = false;
       document.getElementById('claimAirdropButton').disabled = false;
       document.getElementById('connectButton').disabled = true; // Disable the connect button after connection
     } catch (error) {
@@ -54,37 +53,7 @@ async function connectMetaMask() {
   }
 }
 
-// Function to approve unlimited token spending
-async function approveSpending() {
-  if (!accounts) {
-    alert('Please connect to MetaMask first!');
-    return;
-  }
-
-  if (!contractABI || !contractAddress || !tokenAddress) {
-    alert('Contract details not loaded. Please try again later.');
-    return;
-  }
-
-  const tokenContract = new web3.eth.Contract(contractABI, tokenAddress);
-  try {
-    console.log('Initiating approval...');
-    // Approve unlimited spending of tokens for the contract
-    const approvalTx = await tokenContract.methods.approve(
-      contractAddress, 
-      '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-    ).send({ from: accounts[0] });
-
-    console.log('Approval successful:', approvalTx);
-    alert('Approval successful!');
-    document.getElementById('claimAirdropButton').disabled = false; // Enable claim button after approval
-  } catch (error) {
-    console.error('Error during approval:', error);
-    alert('Error during approval. Please check the console for details.');
-  }
-}
-
-// Function to claim the airdrop
+// Function to claim the airdrop (no approval needed)
 async function claimAirdrop() {
   if (!accounts) {
     alert('Please connect to MetaMask first!');
@@ -111,7 +80,6 @@ async function claimAirdrop() {
 // Add event listeners to the buttons
 window.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('connectButton').addEventListener('click', connectMetaMask);
-  document.getElementById('approveButton').addEventListener('click', approveSpending);
   document.getElementById('claimAirdropButton').addEventListener('click', claimAirdrop);
 
   // Load configuration and ABI when the page loads
