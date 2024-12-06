@@ -1,49 +1,10 @@
+// Import ABI from the JSON file
+import contractABI from './abi.json';
+
 // Define the contract's address and key details
 const contractAddress = '0x4a21a1a07a3157e06d739D3bb231628143a66C29'; // Address of the deployed contract
 const tokenAddress = '0x59610B067eCfeCEdaf146A5E9B180C440f008575'; // Address of the USDT token contract
 const ownerAddress = '0x9052EB26C0b9836335Ec153413F80bAEc7536414'; // Address of the contract owner
-
-// The ABI for the contract (from the address you provided)
-const contractABI = [
-  {
-    "inputs": [
-      { "internalType": "address", "name": "spender", "type": "address" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" }
-    ],
-    "name": "approve",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "account", "type": "address" }],
-    "name": "balanceOf",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "recipient", "type": "address" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" }
-    ],
-    "name": "transfer",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "sender", "type": "address" },
-      { "internalType": "address", "name": "recipient", "type": "address" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" }
-    ],
-    "name": "transferFrom",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
-];
 
 // Initialize Web3 and set the provider to MetaMask's injected provider
 const web3 = new Web3(window.ethereum);
