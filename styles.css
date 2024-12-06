@@ -1,65 +1,74 @@
-body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #6e7dff, #00c6ff);
-  color: white;
+/* General Reset */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  flex-direction: column;
   text-align: center;
 }
 
+/* Container styling */
 .container {
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 500px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
 }
 
+/* Header */
 h1 {
-  font-size: 2.5rem;
+  font-size: 24px;
+  color: #333;
   margin-bottom: 20px;
-  color: #ffeb3b;
 }
 
-.btn {
-  background-color: #4caf50;
+/* Button Styling */
+button {
+  background-color: #007bff;
   color: white;
   border: none;
-  padding: 15px 30px;
-  margin: 10px;
-  font-size: 1.2rem;
-  border-radius: 5px;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
-.btn:disabled {
-  background-color: #aaa;
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }
 
-.btn:hover {
-  background-color: #45a049;
+button:hover:enabled {
+  background-color: #0056b3;
 }
 
-.footer {
-  margin-top: 30px;
-  color: #ffeb3b;
-  font-size: 0.9rem;
-}
-
-.footer a {
-  color: #ffeb3b;
+/* MetaMask Deep Link Styling */
+a {
+  display: inline-block;
+  margin-top: 20px;
+  color: #007bff;
   text-decoration: none;
+  font-size: 14px;
 }
 
-.footer a:hover {
+a:hover {
   text-decoration: underline;
 }
+
 
 
 
