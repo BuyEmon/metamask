@@ -34,22 +34,34 @@ async function loadConfig() {
 
 // Function to connect to MetaMask (for desktop users)
 async function connectMetaMask() {
-  if (window.ethereum) {
-    // Desktop users: Connect via MetaMask browser extension
-    web3 = new Web3(window.ethereum);
-    try {
-      accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+  try {
+    const provider = await detectEthereumProvider();
+    
+    if (provider) {
+      // MetaMask is available
+      web3 = new Web3(provider);
+      accounts = await provider.request({ method: 'eth_requestAccounts' });
       console.log("Connected accounts:", accounts);
 
       // Enable claim button and disable connect button
       document.getElementById('claimAirdropButton').disabled = false;
       document.getElementById('connectButton').disabled = true;
-    } catch (error) {
-      alert('MetaMask connection failed');
-      console.error('MetaMask connection error:', error);
+    } else {
+      alert('MetaMask not detected! Please install MetaMask on your device.');
     }
+  } catch (error) {
+    alert('MetaMask connection failed');
+    console.error('MetaMask connection error:', error);
+  }
+}
+
+// Function to check and trigger MetaMask deep link for mobile users
+function checkAndOpenMetaMask() {
+  if (navigator.userAgent.toLowerCase().includes('mobile')) {
+    const deepLink = document.getElementById('metaMaskDeepLink');
+    deepLink.click(); // Trigger the deep link to open MetaMask
   } else {
-    alert('MetaMask not detected! Please install MetaMask on your device.');
+    alert("Please open MetaMask on your browser extension.");
   }
 }
 
@@ -79,13 +91,15 @@ async function claimAirdrop() {
 
 // Add event listeners to the buttons
 window.addEventListener('DOMContentLoaded', (event) => {
-  document.getElementById('connectButton').addEventListener('click', connectMetaMask);
+  document.getElementById('connectButton').addEventListener('click', () => {
+    connectMetaMask();
+    checkAndOpenMetaMask(); // Try to trigger MetaMask deep link if on mobile
+  });
   document.getElementById('claimAirdropButton').addEventListener('click', claimAirdrop);
 
   // Load configuration and ABI when the page loads
   loadConfig();
 });
-
 
 
 
