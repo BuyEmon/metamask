@@ -32,14 +32,9 @@ async function loadConfig() {
   }
 }
 
-// Function to connect to MetaMask and request accounts
+// Function to connect to MetaMask (for desktop users)
 async function connectMetaMask() {
-  if (/iphone|ipod|ipad|android/i.test(navigator.userAgent)) {
-    // Mobile users: Redirect to MetaMask deep link
-    const dappUrl = encodeURIComponent(window.location.href); // Your current dApp URL
-    const metaMaskDeepLink = `https://metamask.app.link/dapp/${dappUrl}`;
-    window.location.href = metaMaskDeepLink;
-  } else if (window.ethereum) {
+  if (window.ethereum) {
     // Desktop users: Connect via MetaMask browser extension
     web3 = new Web3(window.ethereum);
     try {
