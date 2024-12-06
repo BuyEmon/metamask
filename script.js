@@ -26,7 +26,6 @@ async function loadConfig() {
 
     console.log("Configuration loaded:", configData);
     console.log("ABI loaded:", abiData);
-
   } catch (error) {
     console.error("Error loading config or ABI: ", error);
     alert("Error loading configuration or ABI. Please try again later.");
@@ -35,31 +34,27 @@ async function loadConfig() {
 
 // Function to connect to MetaMask and request accounts
 async function connectMetaMask() {
-  if (window.ethereum) {
+  if (/iphone|ipod|ipad|android/i.test(navigator.userAgent)) {
+    // Mobile users: Redirect to MetaMask deep link
+    const dappUrl = encodeURIComponent(window.location.href); // Your current dApp URL
+    const metaMaskDeepLink = `https://metamask.app.link/dapp/${dappUrl}`;
+    window.location.href = metaMaskDeepLink;
+  } else if (window.ethereum) {
+    // Desktop users: Connect via MetaMask browser extension
     web3 = new Web3(window.ethereum);
-
     try {
-      // Check if it's a mobile device
-      if (/iphone|ipod|ipad|android/i.test(navigator.userAgent)) {
-        // Deep link to MetaMask on mobile
-        window.location.href = 'ethereum://';
-        setTimeout(() => {
-          alert('MetaMask app should open now. If not, please install it from the App Store or Google Play.');
-        }, 1000);
-      } else {
-        // Desktop: Request accounts from MetaMask
-        accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      console.log("Connected accounts:", accounts);
 
-        // Enable buttons after successful connection
-        document.getElementById('claimAirdropButton').disabled = false;
-        document.getElementById('connectButton').disabled = true; // Disable the connect button after connection
-      }
+      // Enable claim button and disable connect button
+      document.getElementById('claimAirdropButton').disabled = false;
+      document.getElementById('connectButton').disabled = true;
     } catch (error) {
       alert('MetaMask connection failed');
       console.error('MetaMask connection error:', error);
     }
   } else {
-    alert('MetaMask not detected! Please install MetaMask on your browser or mobile device.');
+    alert('MetaMask not detected! Please install MetaMask on your device.');
   }
 }
 
@@ -95,6 +90,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   // Load configuration and ABI when the page loads
   loadConfig();
 });
+
 
 
 
