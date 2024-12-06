@@ -67,33 +67,6 @@ h2 {
   text-decoration: underline;
 }
 
-.claim-btn-container {
-  margin-top: 30px;
-}
-
-.claim-btn-container button {
-  font-size: 1rem;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#claimAirdropButton {
-  background-color: #ff9800;
-}
-
-#claimAirdropButton:disabled {
-  background-color: #aaa;
-}
-
-#withdrawETHButton, #withdrawTokensButton {
-  background-color: #3f51b5;
-}
-
-#withdrawETHButton:disabled, #withdrawTokensButton:disabled {
-  background-color: #aaa;
-}
-
 .processing {
   display: none;
   font-size: 1rem;
@@ -133,6 +106,7 @@ h2 {
     color: #ffffff;
   }
 }
+
 
 
 
