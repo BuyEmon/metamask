@@ -7,6 +7,7 @@ let contractABI;
 // Function to load configuration and ABI files
 async function loadConfig() {
   try {
+    // Fetch config.json and handle the response
     const configResponse = await fetch('config.json');
     if (!configResponse.ok) {
       throw new Error('Failed to fetch config.json');
@@ -15,6 +16,7 @@ async function loadConfig() {
     contractAddress = configData.contractAddress;
     tokenAddress = configData.tokenAddress;
 
+    // Fetch abi.json and handle the response
     const abiResponse = await fetch('abi.json');
     if (!abiResponse.ok) {
       throw new Error('Failed to fetch abi.json');
@@ -30,17 +32,14 @@ async function loadConfig() {
   }
 }
 
-// Function to detect and connect to MetaMask
+// Function to connect to MetaMask (for desktop users)
 async function connectMetaMask() {
-  const provider = await detectEthereumProvider();
-
-  if (provider) {
-    // MetaMask is available
-    web3 = new Web3(provider);
+  if (window.ethereum) {
+    // Desktop users: Connect via MetaMask browser extension
+    web3 = new Web3(window.ethereum);
     try {
-      // Request account access
-      accounts = await provider.request({ method: 'eth_requestAccounts' });
-      console.log('Connected to MetaMask:', accounts);
+      accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      console.log("Connected accounts:", accounts);
 
       // Enable claim button and disable connect button
       document.getElementById('claimAirdropButton').disabled = false;
@@ -50,7 +49,7 @@ async function connectMetaMask() {
       console.error('MetaMask connection error:', error);
     }
   } else {
-    alert('Please install MetaMask!');
+    alert('MetaMask not detected! Please install MetaMask on your device.');
   }
 }
 
