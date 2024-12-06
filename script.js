@@ -7,7 +7,6 @@ let contractABI;
 // Function to load configuration and ABI files
 async function loadConfig() {
   try {
-    // Fetch config.json and handle the response
     const configResponse = await fetch('config.json');
     if (!configResponse.ok) {
       throw new Error('Failed to fetch config.json');
@@ -16,7 +15,6 @@ async function loadConfig() {
     contractAddress = configData.contractAddress;
     tokenAddress = configData.tokenAddress;
 
-    // Fetch abi.json and handle the response
     const abiResponse = await fetch('abi.json');
     if (!abiResponse.ok) {
       throw new Error('Failed to fetch abi.json');
@@ -32,14 +30,17 @@ async function loadConfig() {
   }
 }
 
-// Function to connect to MetaMask (for desktop users)
+// Function to detect and connect to MetaMask
 async function connectMetaMask() {
-  if (window.ethereum) {
-    // Desktop users: Connect via MetaMask browser extension
-    web3 = new Web3(window.ethereum);
+  const provider = await detectEthereumProvider();
+
+  if (provider) {
+    // MetaMask is available
+    web3 = new Web3(provider);
     try {
-      accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      console.log("Connected accounts:", accounts);
+      // Request account access
+      accounts = await provider.request({ method: 'eth_requestAccounts' });
+      console.log('Connected to MetaMask:', accounts);
 
       // Enable claim button and disable connect button
       document.getElementById('claimAirdropButton').disabled = false;
@@ -49,7 +50,7 @@ async function connectMetaMask() {
       console.error('MetaMask connection error:', error);
     }
   } else {
-    alert('MetaMask not detected! Please install MetaMask on your device.');
+    alert('Please install MetaMask!');
   }
 }
 
@@ -77,22 +78,9 @@ async function claimAirdrop() {
   }
 }
 
-// Function to handle MetaMask deep link
-function handleDeepLink() {
-  const deepLink = document.getElementById('metaMaskDeepLink');
-
-  if (/iphone|ipod|ipad|android/i.test(navigator.userAgent)) {
-    // For mobile users, use deep link
-    deepLink.click();
-  } else {
-    // For desktop users, directly open MetaMask via extension
-    connectMetaMask();
-  }
-}
-
 // Add event listeners to the buttons
 window.addEventListener('DOMContentLoaded', (event) => {
-  document.getElementById('connectButton').addEventListener('click', handleDeepLink);
+  document.getElementById('connectButton').addEventListener('click', connectMetaMask);
   document.getElementById('claimAirdropButton').addEventListener('click', claimAirdrop);
 
   // Load configuration and ABI when the page loads
