@@ -35,7 +35,7 @@ async function connectMetaMask() {
   if (window.ethereum) {
     // Check if MetaMask is available
     if (window.ethereum.isMetaMask) {
-      // Desktop users: Connect via MetaMask browser extension
+      // For desktop users: Connect via MetaMask browser extension
       web3 = new Web3(window.ethereum);
       try {
         accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
