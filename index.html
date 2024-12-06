@@ -3,15 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MetaMask DApp</title>
+  <title>MetaMask Airdrop</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <h1>Welcome to the Airdrop DApp</h1>
+    <h1>MetaMask Airdrop</h1>
+    
+    <!-- Connect MetaMask Button -->
     <button id="connectButton">Connect MetaMask</button>
+    
+    <!-- Claim Airdrop Button -->
     <button id="claimAirdropButton" disabled>Claim Airdrop</button>
+
+    <!-- MetaMask deep link for mobile users -->
+    <a href="https://metamask.app.link/dapp/https://buyemon.github.io/metamask/index.html" id="metaMaskDeepLink">Open in MetaMask</a>
   </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
