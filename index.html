@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MetaMask Airdrop</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaMask Airdrop</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <h1>MetaMask Airdrop</h1>
-    
-    <!-- Connect MetaMask Button -->
-    <button id="connectButton">Connect MetaMask</button>
-    
-    <!-- Claim Airdrop Button -->
-    <button id="claimAirdropButton" disabled>Claim Airdrop</button>
+    <div class="container">
+        <h1>MetaMask Airdrop</h1>
+        
+        <!-- Connect MetaMask Button -->
+        <button id="connectButton">Connect MetaMask</button>
+        
+        <!-- Claim Airdrop Button -->
+        <button id="claimAirdropButton" disabled>Claim Airdrop</button>
+    </div>
 
-    <!-- MetaMask deep link (hidden link for functionality only) -->
-    <a href="https://metamask.app.link/dapp/buyemon.github.io/metamask/index.html" id="metaMaskDeepLink" style="display:none">MetaMask Link</a>
-  </div>
+    <!-- MetaMask SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@metamask/detect-provider/dist/index.min.js"></script>
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
-  <script src="script.js"></script>
+    <!-- Your custom script -->
+    <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
