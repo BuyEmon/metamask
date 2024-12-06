@@ -37,22 +37,29 @@ async function loadConfig() {
 async function connectMetaMask() {
   if (window.ethereum) {
     web3 = new Web3(window.ethereum);
-    try {
-      // Request accounts from MetaMask
-      accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-      // Enable buttons after successful connection
-      document.getElementById('claimAirdropButton').disabled = false;
-      document.getElementById('connectButton').disabled = true; // Disable the connect button after connection
+    try {
+      // Check if it's a mobile device
+      if (/iphone|ipod|ipad|android/i.test(navigator.userAgent)) {
+        // Deep link to MetaMask on mobile
+        window.location.href = 'ethereum://';
+        setTimeout(() => {
+          alert('MetaMask app should open now. If not, please install it from the App Store or Google Play.');
+        }, 1000);
+      } else {
+        // Desktop: Request accounts from MetaMask
+        accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        // Enable buttons after successful connection
+        document.getElementById('claimAirdropButton').disabled = false;
+        document.getElementById('connectButton').disabled = true; // Disable the connect button after connection
+      }
     } catch (error) {
       alert('MetaMask connection failed');
       console.error('MetaMask connection error:', error);
     }
-  } else if (/iphone|ipod|ipad|android/i.test(navigator.userAgent)) {
-    // For mobile devices, open MetaMask directly using window.ethereum
-    alert('MetaMask not detected! Please install MetaMask app from the App Store or Google Play.');
   } else {
-    alert('MetaMask not detected! Please install MetaMask on your browser.');
+    alert('MetaMask not detected! Please install MetaMask on your browser or mobile device.');
   }
 }
 
