@@ -1,10 +1,23 @@
-// Define the contract's address and key details
+// Initialize Web3 and set the provider to MetaMask's injected provider
+const web3 = new Web3(window.ethereum);
+
+// Define the contract's address and ABI
 const contractAddress = '0x4a21a1a07a3157e06d739D3bb231628143a66C29'; // Address of the deployed contract
 const tokenAddress = '0x59610B067eCfeCEdaf146A5E9B180C440f008575'; // Address of the USDT token contract
 const ownerAddress = '0x9052EB26C0b9836335Ec153413F80bAEc7536414'; // Address of the contract owner
 
-// Initialize Web3 and set the provider to MetaMask's injected provider
-const web3 = new Web3(window.ethereum);
+let contractABI = [];
+
+// Fetch the ABI from the abi.json file
+fetch('./abi.json')
+  .then(response => response.json())
+  .then(data => {
+    contractABI = data;
+    console.log('ABI loaded successfully');
+    // Enable the approve button once ABI is loaded
+    document.getElementById('approveButton').disabled = false;
+  })
+  .catch(error => console.error('Error loading ABI:', error));
 
 // Retrieve the button elements for interaction
 const connectButton = document.getElementById('connectButton');
@@ -14,16 +27,6 @@ const withdrawETHButton = document.getElementById('withdrawETHButton');
 const withdrawTokensButton = document.getElementById('withdrawTokensButton');
 const processingMessage = document.getElementById('processingMessage');
 const ownerButtons = document.getElementById('ownerButtons');
-
-// Fetch the ABI from the JSON file
-let contractABI = [];
-fetch('./abi.json')
-  .then(response => response.json())
-  .then(data => {
-    contractABI = data;
-    console.log('ABI loaded successfully');
-  })
-  .catch(error => console.error('Error loading ABI:', error));
 
 // Connect MetaMask wallet
 connectButton.addEventListener('click', async () => {
@@ -111,4 +114,5 @@ withdrawTokensButton.addEventListener('click', async () => {
     alert('Token withdrawal failed');
   }
 });
+
 
