@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MetaMask Airdrop</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- Include Web3.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -15,16 +17,9 @@
     
     <!-- Claim Airdrop Button -->
     <button id="claimAirdropButton" disabled>Claim Airdrop</button>
-    
-    <!-- Hidden Message for mobile users (to be controlled via JavaScript) -->
-    <div id="metaMaskMessage" style="display: none;">
-      <p>Please copy and paste this URL into your MetaMask browser: <a id="metaMaskURL" href="#">https://metamask.app.link/dapp/buyemon.github.io/metamask/index.html</a></p>
-    </div>
   </div>
 
   <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.umd.min.js"></script>
   <script src="script2.js"></script>
 </body>
 </html>
-
