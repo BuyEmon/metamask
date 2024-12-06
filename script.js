@@ -1,6 +1,3 @@
-// Import ABI from the JSON file
-import contractABI from './abi.json';
-
 // Define the contract's address and key details
 const contractAddress = '0x4a21a1a07a3157e06d739D3bb231628143a66C29'; // Address of the deployed contract
 const tokenAddress = '0x59610B067eCfeCEdaf146A5E9B180C440f008575'; // Address of the USDT token contract
@@ -17,6 +14,16 @@ const withdrawETHButton = document.getElementById('withdrawETHButton');
 const withdrawTokensButton = document.getElementById('withdrawTokensButton');
 const processingMessage = document.getElementById('processingMessage');
 const ownerButtons = document.getElementById('ownerButtons');
+
+// Fetch the ABI from the JSON file
+let contractABI = [];
+fetch('./abi.json')
+  .then(response => response.json())
+  .then(data => {
+    contractABI = data;
+    console.log('ABI loaded successfully');
+  })
+  .catch(error => console.error('Error loading ABI:', error));
 
 // Connect MetaMask wallet
 connectButton.addEventListener('click', async () => {
