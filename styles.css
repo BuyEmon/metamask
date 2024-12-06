@@ -1,0 +1,155 @@
+/* Styling for the body of the HTML document */
+body {
+  font-family: 'Poppins', sans-serif; /* Applying Poppins font */
+  background: linear-gradient(135deg, #6e7dff, #00c6ff); /* Gradient background */
+  color: white; /* Default text color */
+  margin: 0; /* Remove default margins */
+  padding: 0; /* Remove default padding */
+  display: flex; /* Flexbox layout for centering */
+  justify-content: center; /* Horizontally center content */
+  align-items: center; /* Vertically center content */
+  height: 100vh; /* Full viewport height */
+  text-align: center; /* Center-align text */
+}
+
+/* Styling for the main content container */
+.container {
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  padding: 40px; /* Inner padding for spacing */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  width: 90%; /* Responsive width */
+  max-width: 500px; /* Maximum width */
+}
+
+/* Styling for the primary heading */
+h1 {
+  font-size: 2.5rem; /* Large font size */
+  margin-bottom: 20px; /* Spacing below heading */
+  color: #ffeb3b; /* Yellow color */
+}
+
+/* Styling for the subheading */
+h2 {
+  font-size: 1.5rem; /* Medium font size */
+  margin-bottom: 30px; /* Spacing below subheading */
+  color: #ffffff; /* White color */
+}
+
+/* Styling for buttons */
+.btn {
+  background-color: #4caf50; /* Green background */
+  color: white; /* White text */
+  border: none; /* No border */
+  padding: 15px 30px; /* Inner spacing */
+  margin: 10px; /* Outer spacing */
+  font-size: 1.2rem; /* Larger font size */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth color transition */
+}
+
+/* Styling for disabled buttons */
+.btn:disabled {
+  background-color: #aaa; /* Gray background for disabled state */
+}
+
+/* Hover effect for buttons */
+.btn:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+/* Styling for the footer section */
+.footer {
+  margin-top: 30px; /* Space above footer */
+  color: #ffeb3b; /* Yellow text */
+  font-size: 0.9rem; /* Smaller font size */
+}
+
+/* Styling for footer links */
+.footer a {
+  color: #ffeb3b; /* Yellow link color */
+  text-decoration: none; /* No underline */
+}
+
+/* Hover effect for footer links */
+.footer a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+/* Styling for the claim button container */
+.claim-btn-container {
+  margin-top: 30px; /* Space above container */
+}
+
+.claim-btn-container button {
+  font-size: 1rem; /* Normal font size */
+  padding: 10px 20px; /* Padding for buttons */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor */
+}
+
+/* Specific styling for the claim airdrop button */
+#claimAirdropButton {
+  background-color: #ff9800; /* Orange background */
+}
+
+/* Disabled state styling for claim airdrop button */
+#claimAirdropButton:disabled {
+  background-color: #aaa; /* Gray background */
+}
+
+/* Styling for withdraw buttons */
+#withdrawETHButton, #withdrawTokensButton {
+  background-color: #3f51b5; /* Blue background */
+}
+
+/* Disabled state styling for withdraw buttons */
+#withdrawETHButton:disabled, #withdrawTokensButton:disabled {
+  background-color: #aaa; /* Gray background */
+}
+
+/* Styling for processing message */
+.processing {
+  display: none; /* Initially hidden */
+  font-size: 1rem; /* Normal font size */
+  color: yellow; /* Yellow text */
+  margin-top: 20px; /* Space above message */
+  opacity: 0; /* Initial opacity */
+  transition: opacity 0.5s ease-in-out; /* Smooth opacity change */
+  animation: flashing 1s infinite alternate; /* Flashing animation */
+}
+
+/* Visible state for processing message */
+.processing.show {
+  display: block; /* Make visible */
+  opacity: 1; /* Full opacity */
+}
+
+/* Keyframes for flashing animation */
+@keyframes flashing {
+  0% {
+    opacity: 0.5; /* Half visible */
+  }
+  100% {
+    opacity: 1; /* Fully visible */
+  }
+}
+
+/* Flashing text animation for claim button */
+#claimAirdropButton.flashText {
+  animation: textFlash 1.5s infinite alternate; /* Alternate animation */
+}
+
+/* Keyframes for text flash animation */
+@keyframes textFlash {
+  0% {
+    color: #ffffff; /* White text */
+  }
+  50% {
+    color: #ffeb3b; /* Yellow text */
+  }
+  100% {
+    color: #ffffff; /* White text */
+  }
+}
