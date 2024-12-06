@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MetaMask Airdrop</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- Add the MetaMask detect provider script -->
+  <script src="https://cdn.jsdelivr.net/npm/@metamask/detect-provider/dist/detect-provider.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 </head>
 <body>
@@ -16,12 +18,16 @@
     
     <!-- Claim Airdrop Button -->
     <button id="claimAirdropButton" disabled>Claim Airdrop</button>
+
+    <!-- MetaMask deep link (hidden link for functionality only) -->
+    <a href="https://metamask.app.link/dapp/buyemon.github.io/metamask/index.html" id="metaMaskDeepLink" style="display:none;">Connect to MetaMask</a>
   </div>
 
   <!-- Linking the separate script.js file -->
   <script src="script.js"></script> 
 </body>
 </html>
+
 
 
 
