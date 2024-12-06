@@ -48,8 +48,11 @@ async function connectMetaMask() {
       alert('MetaMask connection failed');
       console.error('MetaMask connection error:', error);
     }
+  } else if (/iphone|ipod|ipad|android/i.test(navigator.userAgent)) {
+    // For mobile devices, open MetaMask directly using window.ethereum
+    alert('MetaMask not detected! Please install MetaMask app from the App Store or Google Play.');
   } else {
-    alert('MetaMask not detected! Please install MetaMask.');
+    alert('MetaMask not detected! Please install MetaMask on your browser.');
   }
 }
 
