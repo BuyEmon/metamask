@@ -48,7 +48,7 @@ h2 {
   background-color: #aaa;
 }
 
-.btn:hover {
+.btn:hover:enabled {
   background-color: #45a049;
 }
 
@@ -86,27 +86,22 @@ h2 {
   background-color: #aaa;
 }
 
-#withdrawETHButton, #withdrawTokensButton {
-  background-color: #3f51b5;
-}
-
-#withdrawETHButton:disabled, #withdrawTokensButton:disabled {
-  background-color: #aaa;
+#claimAirdropButton:enabled {
+  background-color: #4caf50;
+  color: white;
 }
 
 .processing {
   display: none;
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: yellow;
   margin-top: 20px;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-  animation: flashing 1s infinite alternate;
+  position: relative;
+  animation: flashing 1s infinite alternate, grow 0.5s ease-in-out;
 }
 
 .processing.show {
   display: block;
-  opacity: 1;
 }
 
 @keyframes flashing {
@@ -118,19 +113,13 @@ h2 {
   }
 }
 
-#claimAirdropButton.flashText {
-  animation: textFlash 1.5s infinite alternate;
-}
-
-@keyframes textFlash {
+@keyframes grow {
   0% {
-    color: #ffffff;
-  }
-  50% {
-    color: #ffeb3b;
+    transform: scale(1);
   }
   100% {
-    color: #ffffff;
+    transform: scale(1.2);
   }
 }
+
 
