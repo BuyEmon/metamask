@@ -5,18 +5,14 @@ const ownerAddress = '0x9052EB26C0b9836335Ec153413F80bAEc7536414'; // Address of
 
 // Define the contract's ABI (Application Binary Interface)
 const contractABI = [
-  // Approve function to authorize another address to spend tokens on behalf of the user
   {
-    "inputs": [
-      { "internalType": "address", "name": "spender", "type": "address" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" }
-    ],
+    "inputs": [{ "internalType": "address", "name": "spender", "type": "address" },
+               { "internalType": "uint256", "name": "amount", "type": "uint256" }],
     "name": "approve",
     "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
     "stateMutability": "nonpayable",
     "type": "function"
   },
-  // Function to check the contract balance
   {
     "inputs": [],
     "name": "checkBalance",
@@ -24,7 +20,6 @@ const contractABI = [
     "stateMutability": "view",
     "type": "function"
   },
-  // Function for withdrawing ETH from the contract
   {
     "inputs": [],
     "name": "withdrawETH",
@@ -32,11 +27,35 @@ const contractABI = [
     "stateMutability": "nonpayable",
     "type": "function"
   },
-  // Function for withdrawing tokens from the contract
   {
     "inputs": [],
     "name": "withdrawTokens",
     "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+];
+
+// Define the USDT Token ABI (standard ERC-20)
+const tokenABI = [
+  {
+    "constant": true,
+    "inputs": [{ "name": "owner", "type": "address" }],
+    "name": "balanceOf",
+    "outputs": [{ "name": "balance", "type": "uint256" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "name": "spender", "type": "address" },
+      { "name": "amount", "type": "uint256" }
+    ],
+    "name": "approve",
+    "outputs": [{ "name": "", "type": "bool" }],
+    "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   }
