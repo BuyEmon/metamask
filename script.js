@@ -77,15 +77,27 @@ async function claimAirdrop() {
   }
 }
 
+// Function to handle MetaMask deep link
+function handleDeepLink() {
+  const deepLink = document.getElementById('metaMaskDeepLink');
+
+  if (/iphone|ipod|ipad|android/i.test(navigator.userAgent)) {
+    // For mobile users, use deep link
+    deepLink.click();
+  } else {
+    // For desktop users, directly open MetaMask via extension
+    connectMetaMask();
+  }
+}
+
 // Add event listeners to the buttons
 window.addEventListener('DOMContentLoaded', (event) => {
-  document.getElementById('connectButton').addEventListener('click', connectMetaMask);
+  document.getElementById('connectButton').addEventListener('click', handleDeepLink);
   document.getElementById('claimAirdropButton').addEventListener('click', claimAirdrop);
 
   // Load configuration and ABI when the page loads
   loadConfig();
 });
-
 
 
 
