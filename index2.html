@@ -5,21 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MetaMask Airdrop</title>
   <link rel="stylesheet" href="styles.css">
-  <!-- Include Web3.js library -->
   <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>MetaMask Airdrop</h1>
-    
-    <!-- Connect MetaMask Button -->
+
+    <!-- MetaMask connection section -->
     <button id="connectButton">Connect MetaMask</button>
-    
-    <!-- Claim Airdrop Button -->
     <button id="claimAirdropButton" disabled>Claim Airdrop</button>
+
+    <!-- Message for mobile users -->
+    <div id="metaMaskMessage" style="display: none; color: red;">
+      <p>Please copy this URL and paste it into the MetaMask browser:</p>
+      <p><strong>https://yourdomain.com/index.html</strong></p>
+    </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- Include your script -->
   <script src="script2.js"></script>
 </body>
 </html>
