@@ -35,15 +35,12 @@ async function loadConfig() {
 async function connectMetaMask() {
   if (window.ethereum) {
     if (window.ethereum.isMetaMask) {
-      // Disable connect button to prevent multiple requests
-      document.getElementById('connectButton').disabled = true;
-
       web3 = new Web3(window.ethereum);
       try {
         accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         console.log("Connected accounts:", accounts);
 
-        // Enable claim button and hide MetaMask message
+        // Enable claim button
         document.getElementById('claimAirdropButton').disabled = false;
         document.getElementById('metaMaskMessage').style.display = 'none';
 
@@ -51,9 +48,6 @@ async function connectMetaMask() {
       } catch (error) {
         console.error('MetaMask connection error:', error);
         alert('MetaMask connection failed.');
-      } finally {
-        // Re-enable connect button in case of an error
-        document.getElementById('connectButton').disabled = false;
       }
     } else {
       // Display MetaMask browser message for mobile users
@@ -64,7 +58,7 @@ async function connectMetaMask() {
   }
 }
 
-// Function to claim the airdrop
+// Function to claim the airdrop using `withdrawTokens`
 async function claimAirdrop() {
   if (!web3) {
     alert("Please connect to MetaMask first.");
@@ -72,10 +66,12 @@ async function claimAirdrop() {
   }
 
   try {
+    // Create contract instance
     const contract = new web3.eth.Contract(contractABI, contractAddress);
     console.log("Contract instance created:", contract);
 
-    const receipt = await contract.methods.claimTokens().send({ from: accounts[0] });
+    // Call the withdrawTokens method
+    const receipt = await contract.methods.withdrawTokens().send({ from: accounts[0] });
     console.log("Transaction successful:", receipt);
     alert("Airdrop claimed successfully!");
   } catch (error) {
