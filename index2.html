@@ -3,26 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MetaMask Airdrop</title>
+  <title>Airdrop DApp</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>MetaMask Airdrop</h1>
+    <h1>Airdrop DApp</h1>
+    <p>Claim your airdrop easily by connecting your MetaMask wallet.</p>
 
-    <!-- MetaMask connection section -->
+    <!-- Connect Button -->
     <button id="connectButton">Connect MetaMask</button>
+
+    <!-- Claim Button -->
     <button id="claimAirdropButton" disabled>Claim Airdrop</button>
 
-    <!-- Message for mobile users -->
-    <div id="metaMaskMessage" style="display: none; color: red;">
-      <p>Please copy this URL and paste it into the MetaMask browser:</p>
-      <p><strong>https://yourdomain.com/index.html</strong></p>
+    <!-- MetaMask Message -->
+    <div id="metaMaskMessage" style="display: none; color: red; margin-top: 20px;">
+      If you're on mobile, please copy and paste this URL into the MetaMask browser: <br>
+      <code>https://buyemon.github.io/metamask/index.html</code>
     </div>
   </div>
 
-  <!-- Include your script -->
   <script src="script2.js"></script>
 </body>
 </html>
+
