@@ -33,32 +33,33 @@ async function loadConfig() {
 
 // Function to connect to MetaMask
 async function connectMetaMask() {
-  // Check if the browser supports Ethereum provider
   if (window.ethereum) {
-    // Check if MetaMask is installed
     if (window.ethereum.isMetaMask) {
-      // Initialize Web3 with the MetaMask provider
+      // Disable connect button to prevent multiple requests
+      document.getElementById('connectButton').disabled = true;
+
       web3 = new Web3(window.ethereum);
       try {
-        // Request account access
         accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         console.log("Connected accounts:", accounts);
 
-        // Enable claim button and disable connect button
+        // Enable claim button and hide MetaMask message
         document.getElementById('claimAirdropButton').disabled = false;
-        document.getElementById('connectButton').disabled = true;
+        document.getElementById('metaMaskMessage').style.display = 'none';
 
         alert("Connected to MetaMask!");
       } catch (error) {
-        alert('MetaMask connection failed');
         console.error('MetaMask connection error:', error);
+        alert('MetaMask connection failed.');
+      } finally {
+        // Re-enable connect button in case of an error
+        document.getElementById('connectButton').disabled = false;
       }
     } else {
-      // If MetaMask is not available on mobile (not in MetaMask browser)
+      // Display MetaMask browser message for mobile users
       document.getElementById('metaMaskMessage').style.display = 'block';
     }
   } else {
-    // If MetaMask is not detected at all
     alert('MetaMask not detected! Please install MetaMask to use this application.');
   }
 }
@@ -85,13 +86,9 @@ async function claimAirdrop() {
 
 // Add event listeners to the buttons
 window.addEventListener('DOMContentLoaded', () => {
-  // Load configuration and ABI when the page loads
   loadConfig();
 
-  // Add click event to the connect button
   document.getElementById('connectButton').addEventListener('click', connectMetaMask);
-
-  // Add click event to the claim airdrop button
   document.getElementById('claimAirdropButton').addEventListener('click', claimAirdrop);
 });
 
