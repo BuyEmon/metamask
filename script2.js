@@ -4,6 +4,7 @@ let contractAddress;
 let tokenAddress;
 let contractABI;
 
+// Function to load configuration and ABI files
 async function loadConfig() {
   try {
     const configResponse = await fetch('config.json');
@@ -29,6 +30,17 @@ async function loadConfig() {
   }
 }
 
+// Function to simulate a tap/click and open MetaMask URL on mobile
+function openMetaMaskUrl(url) {
+  const a = document.createElement("a");
+  a.href = url;
+  a.target = "_self"; // This will open the URL in the same tab
+  document.body.appendChild(a);
+  a.click(); // Simulate a click
+  a.remove(); // Clean up after clicking
+}
+
+// Function to connect to MetaMask (for desktop and mobile users)
 async function connectMetaMask() {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
@@ -38,6 +50,7 @@ async function connectMetaMask() {
       accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       console.log("Connected accounts:", accounts);
 
+      // Enable claim button and disable connect button
       document.getElementById('claimAirdropButton').disabled = false;
       document.getElementById('connectButton').disabled = true;
     } catch (error) {
@@ -45,14 +58,18 @@ async function connectMetaMask() {
       console.error('MetaMask connection error:', error);
     }
   } else if (isMobile) {
+    // Mobile device detected - prompt user to open the link in MetaMask browser
     alert("Please open this URL in the MetaMask app browser for a better experience.");
-    const deepLink = document.getElementById('metaMaskDeepLink');
-    deepLink.click();
+    
+    // Simulate the click to open MetaMask deep link
+    openMetaMaskUrl("https://metamask.app.link/dapp/buyemon.github.io/metamask/index2.html");
   } else {
+    // MetaMask not installed
     alert('MetaMask is not installed. Please install MetaMask to use this application.');
   }
 }
 
+// Function to claim the airdrop
 async function claimAirdrop() {
   if (!accounts) {
     alert('Please connect to MetaMask first!');
@@ -75,6 +92,7 @@ async function claimAirdrop() {
   }
 }
 
+// Add event listeners to the buttons
 window.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('connectButton').addEventListener('click', connectMetaMask);
   document.getElementById('claimAirdropButton').addEventListener('click', claimAirdrop);
