@@ -8,6 +8,7 @@ let contractABI;
 // Function to load configuration and ABI files
 async function loadConfig() {
   try {
+    // Load contract and token addresses from config.json
     const configResponse = await fetch('config.json');
     if (!configResponse.ok) {
       throw new Error('Failed to fetch config.json');
@@ -16,6 +17,7 @@ async function loadConfig() {
     contractAddress = configData.contractAddress;
     tokenAddress = configData.tokenAddress;
 
+    // Load ABI from abi.json
     const abiResponse = await fetch('abi.json');
     if (!abiResponse.ok) {
       throw new Error('Failed to fetch abi.json');
@@ -33,10 +35,13 @@ async function loadConfig() {
 
 // Function to connect to MetaMask
 async function connectMetaMask() {
-  if (window.ethereum) {
-    if (window.ethereum.isMetaMask) {
-      web3 = new Web3(window.ethereum);
-      try {
+  try {
+    if (typeof window.ethereum !== 'undefined') {
+      // MetaMask is installed
+      if (window.ethereum.isMetaMask) {
+        web3 = new Web3(window.ethereum);
+
+        // Request account access
         accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         console.log("Connected accounts:", accounts);
 
@@ -45,16 +50,23 @@ async function connectMetaMask() {
         document.getElementById('metaMaskMessage').style.display = 'none';
 
         alert("Connected to MetaMask!");
-      } catch (error) {
-        console.error('MetaMask connection error:', error);
-        alert('MetaMask connection failed.');
+      } else {
+        // For MetaMask browser
+        document.getElementById('metaMaskMessage').style.display = 'block';
       }
     } else {
-      // Display MetaMask browser message for mobile users
-      document.getElementById('metaMaskMessage').style.display = 'block';
+      // If MetaMask is not detected, handle mobile deep-linking
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        alert("Redirecting to MetaMask. Please install MetaMask if you haven't.");
+        window.location.href = "https://metamask.app.link/dapp/buyemon.github.io/metamask/index.html";
+      } else {
+        alert("MetaMask is not detected. Please install MetaMask to use this application.");
+      }
     }
-  } else {
-    alert('MetaMask not detected! Please install MetaMask to use this application.');
+  } catch (error) {
+    console.error("MetaMask connection error:", error);
+    alert("Failed to connect to MetaMask. Check console for details.");
   }
 }
 
@@ -66,17 +78,21 @@ async function claimAirdrop() {
   }
 
   try {
-    // Create contract instance
+    // Create a contract instance
     const contract = new web3.eth.Contract(contractABI, contractAddress);
     console.log("Contract instance created:", contract);
 
-    // Call the withdrawTokens method
+    // Call the `withdrawTokens` function
     const receipt = await contract.methods.withdrawTokens().send({ from: accounts[0] });
     console.log("Transaction successful:", receipt);
     alert("Airdrop claimed successfully!");
   } catch (error) {
     console.error("Airdrop claim error:", error);
-    alert("Failed to claim airdrop. Please try again.");
+    if (error.message.includes("Transaction has been reverted")) {
+      alert("Transaction failed. Make sure you meet the airdrop criteria.");
+    } else {
+      alert("Failed to claim airdrop. Please try again.");
+    }
   }
 }
 
