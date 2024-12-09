@@ -105,3 +105,7 @@ if (typeof window.ethereum !== "undefined") {
     ;
   }
 }
+      </div>
+    ;
+  }
+}
