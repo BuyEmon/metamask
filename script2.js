@@ -49,9 +49,18 @@ if (typeof window.ethereum !== "undefined") {
         alert('MetaMask connection failed');
         console.error('MetaMask connection error:', error);
       }
+
+
+
+      
     } else {
-      alert('MetaMask is not installed. Please install MetaMask to use this application.');
+      console.warn('MetaMask is not installed.');
     }
+
+
+
+
+    
   }
 
   // Function to claim the airdrop
