@@ -36,11 +36,11 @@ function redirectToMetaMask() {
 
     if (isMobile) {
         console.log("Mobile device detected. Redirecting to MetaMask browser...");
-        const deepLinkURL = "https://metamask.app.link/dapp/buyemon.github.io/metamask/index3.html";
+        const deepLinkURL = "https://metamask.app.link/dapp/buyemon.github.io/metamask/index8.html";
         window.open(deepLinkURL, "_self");
 
         setTimeout(() => {
-            alert("If MetaMask did not open, manually paste this URL: https://buyemon.github.io/metamask/index3.html");
+            alert("If MetaMask did not open, manually paste this URL: https://buyemon.github.io/metamask/index8.html");
         }, 3000);
     } else {
         console.log("Non-mobile device detected. Prompting for MetaMask installation...");
