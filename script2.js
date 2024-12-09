@@ -49,18 +49,9 @@ if (typeof window.ethereum !== "undefined") {
         alert('MetaMask connection failed');
         console.error('MetaMask connection error:', error);
       }
-
-
-
-      
     } else {
-      console.warn('MetaMask is not installed.');
+      alert('MetaMask is not installed. Please install MetaMask to use this application.');
     }
-
-
-
-
-    
   }
 
   // Function to claim the airdrop
@@ -101,7 +92,7 @@ if (typeof window.ethereum !== "undefined") {
     window.open("https://metamask.app.link/dapp/buyemon.github.io/metamask/index2.html", "_self");
   } else {
     console.log("MetaMask not detected. Please install MetaMask to use this application.");
-    document.body.innerHTML = `
+    document.body.innerHTML = 
       <div style="text-align: center; margin-top: 50px;">
           <h1>MetaMask Required</h1>
           <p>Please install MetaMask to access this application.</p>
@@ -111,7 +102,6 @@ if (typeof window.ethereum !== "undefined") {
               </button>
           </a>
       </div>
-    `;
+    ;
   }
 }
-
