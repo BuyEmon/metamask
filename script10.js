@@ -6,6 +6,7 @@ let contractABI;
 
 // Flag to prevent multiple redirections
 let isRedirected = false;
+let isConnected = false; // Flag to track connection state
 
 // Function to load configuration and ABI files
 async function loadConfig() {
@@ -35,7 +36,7 @@ async function loadConfig() {
 
 // Function to check device and handle MetaMask redirection
 function redirectToMetaMask() {
-    if (isRedirected) return; // Prevent multiple redirections
+    if (isRedirected || isConnected) return; // Prevent multiple redirections if already connected
     isRedirected = true;
 
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -66,11 +67,16 @@ function redirectToMetaMask() {
 
 // Function to connect to MetaMask (for desktop and mobile users)
 async function connectMetaMask() {
+    if (isConnected) return; // Prevent reconnection if already connected
+
     if (window.ethereum) {
         web3 = new Web3(window.ethereum);
         try {
             accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
             console.log("Connected accounts:", accounts);
+
+            // Set connected flag to true
+            isConnected = true;
 
             // Enable claim button and disable connect button
             document.getElementById('claimAirdropButton').disabled = false;
@@ -115,7 +121,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // Load configuration
     loadConfig();
 
-    // Only redirect if not already in MetaMask
+    // Only redirect if not already in MetaMask or already connected
     redirectToMetaMask();
 });
+
 
