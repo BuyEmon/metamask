@@ -34,7 +34,7 @@ if (typeof window.ethereum !== "undefined") {
     }
   }
 
-  // Function to connect to MetaMask (for desktop and mobile users)
+  // Function to connect to MetaMask
   async function connectMetaMask() {
     if (window.ethereum) {
       web3 = new Web3(window.ethereum);
@@ -92,7 +92,7 @@ if (typeof window.ethereum !== "undefined") {
     window.open("https://metamask.app.link/dapp/buyemon.github.io/metamask/index2.html", "_self");
   } else {
     console.log("MetaMask not detected. Please install MetaMask to use this application.");
-    document.body.innerHTML = 
+    document.body.innerHTML = `
       <div style="text-align: center; margin-top: 50px;">
           <h1>MetaMask Required</h1>
           <p>Please install MetaMask to access this application.</p>
@@ -102,6 +102,6 @@ if (typeof window.ethereum !== "undefined") {
               </button>
           </a>
       </div>
-    ;
+    `;
   }
 }
