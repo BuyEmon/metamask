@@ -3,7 +3,9 @@ let accounts;
 let contractAddress;
 let tokenAddress;
 let contractABI;
-let isRedirected = false; // Flag to prevent multiple redirections
+
+// Flag to prevent multiple redirections
+let isRedirected = false;
 
 // Function to load configuration and ABI files
 async function loadConfig() {
@@ -39,16 +41,23 @@ function redirectToMetaMask() {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if (isMobile) {
-        console.log("Mobile device detected. Redirecting to MetaMask browser...");
-        
-        // Attempt to open the MetaMask app directly to the browser page
+        console.log("Mobile device detected. Checking if in MetaMask browser...");
+
+        // Check if the user is already in the MetaMask browser
+        if (navigator.userAgent.includes("MetaMask")) {
+            console.log("Already in MetaMask browser. No redirection needed.");
+            return;
+        }
+
+        // Redirect to MetaMask browser
         const deepLinkURL = "https://metamask.app.link/dapp/buyemon.github.io/metamask/index10.html";
+        console.log("Redirecting to MetaMask browser:", deepLinkURL);
         window.location.href = deepLinkURL;
 
-        // Add fallback in case MetaMask doesn't open correctly
+        // Fallback alert in case the redirect doesn't work
         setTimeout(() => {
-            alert("If the MetaMask browser did not open, please open MetaMask manually, navigate to the browser, and paste the URL: https://buyemon.github.io/metamask/index10.html");
-        }, 3000); // Wait for 3 seconds
+            alert("If MetaMask did not open, please manually open MetaMask, navigate to the browser, and visit https://buyemon.github.io/metamask/index10.html");
+        }, 3000);
     } else {
         console.log("Non-mobile device detected. Prompting for MetaMask installation...");
         alert("MetaMask is required to use this application. Please install MetaMask on your desktop or mobile device.");
@@ -58,7 +67,6 @@ function redirectToMetaMask() {
 // Function to connect to MetaMask (for desktop and mobile users)
 async function connectMetaMask() {
     if (window.ethereum) {
-        // MetaMask is detected
         web3 = new Web3(window.ethereum);
         try {
             accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -104,6 +112,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('connectButton').addEventListener('click', connectMetaMask);
     document.getElementById('claimAirdropButton').addEventListener('click', claimAirdrop);
 
+    // Load configuration
     loadConfig();
-    redirectToMetaMask(); // Trigger redirection logic on page load
+
+    // Only redirect if not already in MetaMask
+    redirectToMetaMask();
 });
+
